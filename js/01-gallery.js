@@ -6,7 +6,7 @@ const galleryItemsMarkup = galleryItems
   .map(
     (item) =>
       `<div class="gallery__item">
-  <a class="gallery__link" target="_self" href="${item.original}">
+  <a class="gallery__link"  href="${item.original}">
     <img
       class="gallery__image"
       src="${item.preview}"
@@ -29,7 +29,7 @@ function onGalleryClick(event) {
     .create(
       `
   <div class="modal">
-  <img src="${event.target.dataset.source}" class="js-modal-img" width="800" height="600">
+  <img src="${event.target.dataset.source}" class="modal__img" width="1080" height="720">
   </div>
 `,
       {
@@ -44,7 +44,7 @@ function onGalleryClick(event) {
 
           instance
             .element()
-            .querySelector(".js-modal-img")
+            .querySelector(".modal__img")
             .addEventListener("click", () => {
               instance.close();
             });
