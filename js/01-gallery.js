@@ -22,35 +22,26 @@ galleryEl.insertAdjacentHTML("afterbegin", galleryItemsMarkup);
 
 galleryEl.addEventListener("click", onGalleryClick);
 
+const instance = basicLightbox.create(`<img src="" />`, {
+  onShow: () => {
+    window.addEventListener("keydown", keydownEscape);
+  },
+  onClose: () => {
+    window.removeEventListener("keydown", keydownEscape);
+  },
+});
+
+function keydownEscape(event) {
+  if (event.key === "Escape") {
+    instance.close();
+    return;
+  }
+}
+
 function onGalleryClick(event) {
   event.preventDefault();
 
-  const instance = basicLightbox
-    .create(
-      `
-  <div class="modal">
-  <img src="${event.target.dataset.source}" class="modal__img" width="1080" height="720">
-  </div>
-`,
-      {
-        onShow: (instance) => {
-          window.addEventListener("keydown", onKeyboardClick);
-          function onKeyboardClick(event) {
-            if (event.code === "Escape") {
-              instance.close();
-              window.removeEventListener("keydown", onKeyboardClick);
-            }
-          }
-
-          instance
-            .element()
-            .querySelector(".modal__img")
-            .addEventListener("click", () => {
-              instance.close();
-            });
-        },
-      }
-    )
-    .show();
+  instance.element().querySelector("img").src = event.target.dataset.source;
+  if (!event.target.dataset.source) return;
+  instance.show();
 }
-console.log(galleryItems);
